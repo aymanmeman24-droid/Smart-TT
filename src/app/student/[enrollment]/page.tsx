@@ -8,6 +8,10 @@ import {
   MapPin, User, Clock, ArrowRight, Coffee, X, Info
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+
+// Create supabase client ONCE outside component (not re-created on every render)
+const supabase = createClient();
+
 import type {
   Student, Department, TimetableEntry, SpecialEvent,
   TimetableOverride, EnrichedTimetableEntry, DayOfWeek
@@ -32,7 +36,6 @@ function getLectureProgress(start: string, end: string) {
 export default function StudentDashboard() {
   const { enrollment } = useParams<{ enrollment: string }>();
   const router = useRouter();
-  const supabase = createClient();
 
   const [student, setStudent] = useState<Student & { departments?: Department } | null>(null);
   const [timetableEntries, setTimetableEntries] = useState<TimetableEntry[]>([]);
@@ -48,7 +51,8 @@ export default function StudentDashboard() {
   const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
 
   useEffect(() => {
-    const t = setInterval(() => setNow(new Date()), 30000);
+    // Update clock every 60s (was 30s) to reduce re-renders
+    const t = setInterval(() => setNow(new Date()), 60000);
     const on = () => setOnline(true); const off = () => setOnline(false);
     window.addEventListener('online', on); window.addEventListener('offline', off);
     return () => { clearInterval(t); window.removeEventListener('online', on); window.removeEventListener('offline', off); };
@@ -64,31 +68,39 @@ export default function StudentDashboard() {
       const s = json.student as Student & { departments: Department };
       setStudent(s);
 
-      const { data: tt } = await supabase.from('timetables')
-        .select('*, departments(*), subjects(*), professors(*), rooms(*)')
-        .eq('department_id', s.department_id!)
-        .eq('semester', s.semester)
-        .eq('status', 'published')
-        .or(`batch.eq.ALL,batch.eq.${s.batch}`);
-      setTimetableEntries(tt || []);
-
       const today = new Date().toISOString().split('T')[0];
-      const ids = (tt || []).map(t => t.id);
+
+      // ── Run timetable + events queries IN PARALLEL ────────
+      const [ttResult, evResult] = await Promise.all([
+        supabase.from('timetables')
+          .select('*, departments(*), subjects(*), professors(*), rooms(*)')
+          .eq('department_id', s.department_id!)
+          .eq('semester', s.semester)
+          .eq('status', 'published')
+          .or(`batch.eq.ALL,batch.eq.${s.batch}`),
+        supabase.from('special_events')
+          .select(`*, departments(*), subjects(*), professors(*), rooms(*),
+            old_rooms:rooms!special_events_old_room_id_fkey(*),
+            new_rooms:rooms!special_events_new_room_id_fkey(*),
+            old_professors:professors!special_events_old_professor_id_fkey(*),
+            new_professors:professors!special_events_new_professor_id_fkey(*)`)
+          .eq('status', 'active').order('created_at', { ascending: false }),
+      ]);
+
+      const tt = ttResult.data || [];
+      setTimetableEntries(tt);
+      setEvents((evResult.data || []).filter(e =>
+        isEventRelevantToStudent(e, { department_id: s.department_id, semester: s.semester, class: s.class, batch: s.batch })
+      ));
+
+      // ── Overrides only if there are timetable entries ─────
+      const ids = tt.map(t => t.id);
       if (ids.length) {
         const { data: ov } = await supabase.from('timetable_overrides')
           .select('*, rooms(*), professors(*)')
           .in('timetable_id', ids).eq('override_date', today);
         setOverrides(ov || []);
       }
-
-      const { data: ev } = await supabase.from('special_events')
-        .select(`*, departments(*), subjects(*), professors(*), rooms(*),
-          old_rooms:rooms!special_events_old_room_id_fkey(*),
-          new_rooms:rooms!special_events_new_room_id_fkey(*),
-          old_professors:professors!special_events_old_professor_id_fkey(*),
-          new_professors:professors!special_events_new_professor_id_fkey(*)`)
-        .eq('status', 'active').order('created_at', { ascending: false });
-      setEvents((ev || []).filter(e => isEventRelevantToStudent(e, { department_id: s.department_id, semester: s.semester, class: s.class, batch: s.batch })));
     } catch { setError('Connection error. Check your internet.'); }
     finally { setLoading(false); }
   }, [enrollment]);
