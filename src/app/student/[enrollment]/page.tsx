@@ -107,19 +107,34 @@ export default function StudentDashboard() {
 
   useEffect(() => { loadData(); }, [loadData]);
 
+  // ── Polling fallback: refresh events every 60s even without Realtime ────
+  useEffect(() => {
+    const pollTimer = setInterval(() => { loadData(); }, 60000);
+    return () => clearInterval(pollTimer);
+  }, [loadData]);
+
   useEffect(() => {
     if (!student) return;
     if (channelRef.current) supabase.removeChannel(channelRef.current);
     const ch = supabase.channel(`s-${student.id}`)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'timetables' }, () => { addNotif({ title: '📅 Timetable Updated', message: 'Your schedule changed.', type: 'update' }); loadData(); })
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'special_events' }, (p) => {
-        const e = p.new as SpecialEvent;
-        if (isEventRelevantToStudent(e, { department_id: student.department_id, semester: student.semester, class: student.class, batch: student.batch })) {
-          addNotif({ title: `${getEventTypeIcon(e.event_type)} ${e.title}`, message: e.description || 'New update posted.', type: e.event_type });
-          loadData();
-        }
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'timetables' }, () => {
+        addNotif({ title: '📅 Timetable Updated', message: 'Your schedule changed.', type: 'update' });
+        loadData();
       })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'timetable_overrides' }, () => { addNotif({ title: '⚡ Live Change', message: 'A lecture was updated.', type: 'update' }); loadData(); })
+      // Listen to ALL changes on special_events (INSERT = new, UPDATE = resolved, DELETE = removed)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'special_events' }, (p) => {
+        if (p.eventType === 'INSERT') {
+          const e = p.new as SpecialEvent;
+          if (isEventRelevantToStudent(e, { department_id: student.department_id, semester: student.semester, class: student.class, batch: student.batch })) {
+            addNotif({ title: `${getEventTypeIcon(e.event_type)} ${e.title}`, message: e.description || 'New update posted.', type: e.event_type });
+          }
+        }
+        loadData();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'timetable_overrides' }, () => {
+        addNotif({ title: '⚡ Live Change', message: 'A lecture was updated.', type: 'update' });
+        loadData();
+      })
       .subscribe();
     channelRef.current = ch;
     return () => { supabase.removeChannel(ch); };

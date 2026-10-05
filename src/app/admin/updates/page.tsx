@@ -24,7 +24,8 @@ interface EventForm {
 const defaultForm: EventForm = {
   title: '', description: '', event_type: 'announcement', priority: 'normal',
   event_date: new Date().toISOString().split('T')[0], start_time: '', end_time: '',
-  target_all: false, department_id: '', semester: '', class: '', batch: '',
+  target_all: true,  // Default ON — most announcements are college-wide
+  department_id: '', semester: '', class: '', batch: '',
   timetable_id: '', subject_id: '',
   old_room_id: '', new_room_id: '', old_professor_id: '', new_professor_id: '',
   old_start_time: '', new_start_time: '', old_end_time: '', new_end_time: '',
