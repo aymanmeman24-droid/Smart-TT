@@ -1,0 +1,35 @@
+{
+  "name": "GEC Palanpur — Smart Timetable",
+  "short_name": "GEC Timetable",
+  "description": "Government Engineering College Palanpur — Smart Timetable Portal. View your personalized timetable, current lecture, live updates, and campus announcements.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080c14",
+  "theme_color": "#080c14",
+  "orientation": "portrait-primary",
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "/logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "shortcuts": [
+    {
+      "name": "My Timetable",
+      "short_name": "Timetable",
+      "description": "View your personalized timetable",
+      "url": "/",
+      "icons": [{ "src": "/logo.jpg", "sizes": "192x192" }]
+    }
+  ]
+}
