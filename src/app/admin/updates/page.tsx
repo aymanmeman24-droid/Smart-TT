@@ -146,8 +146,8 @@ export default function LiveUpdatesPage() {
     setForm(p => ({ ...p, [field]: e.target.value }));
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between mb-6 lg:pl-0 pl-12">
+    <div className="admin-page-wrap">
+      <div className="updates-header lg:pl-0 pl-12" style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
             <Zap className="w-6 h-6 text-yellow-400" /> Live Updates
@@ -157,7 +157,7 @@ export default function LiveUpdatesPage() {
           </p>
         </div>
         <button id="createUpdateBtn" onClick={() => { setForm(defaultForm); setEditingId(null); setShowForm(true); }} className="btn-primary"
-          style={{ background: 'linear-gradient(135deg, #ef4444, #f59e0b)' }}>
+          style={{ background: 'linear-gradient(135deg, #ef4444, #f59e0b)', flexShrink: 0 }}>
           <Plus className="w-4 h-4" /> Create Update
         </button>
       </div>

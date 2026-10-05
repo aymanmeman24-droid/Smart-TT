@@ -213,7 +213,7 @@ export default function TimetablePage() {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="admin-page-wrap">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6 lg:pl-0 pl-12">
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>

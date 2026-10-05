@@ -78,7 +78,7 @@ export default function DepartmentsPage() {
   const deptColors = ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4', '#ec4899', '#84cc16'];
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="admin-page-wrap">
       <div className="flex items-center justify-between mb-6 lg:pl-0 pl-12">
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>

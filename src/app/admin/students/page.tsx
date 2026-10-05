@@ -189,9 +189,9 @@ export default function StudentsPage() {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="admin-page-wrap">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6 lg:pl-0 pl-12">
+      <div className="flex items-start justify-between mb-6 lg:pl-0 pl-12" style={{ flexWrap: 'wrap', gap: '0.75rem' }}>
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
             <Users className="w-6 h-6" style={{ color: '#3b82f6' }} />
@@ -201,7 +201,7 @@ export default function StudentsPage() {
             {students.filter(s => s.status === 'active').length} active students
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2" style={{ flexShrink: 0 }}>
           <button id="importCSVBtn" onClick={() => setShowCSV(true)} className="btn-secondary">
             <Upload className="w-4 h-4" /> CSV
           </button>
@@ -212,7 +212,7 @@ export default function StudentsPage() {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-4">
+      <div className="filter-row flex flex-wrap gap-3 mb-4">
         <div className="relative flex-1 min-w-48">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--text-muted)' }} />
           <input

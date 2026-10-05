@@ -325,7 +325,7 @@ export default function HomePage() {
             🧪 Try a demo enrollment
           </div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            {['220123456', '210234567', '220234569'].map(en => (
+            {['240010101001', '240010201001', '240010301001', '240010401001'].map(en => (
               <button key={en} onClick={() => setEnrollment(en)}
                 style={{
                   padding: '7px 14px', borderRadius: 10,

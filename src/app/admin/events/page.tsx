@@ -73,7 +73,7 @@ export default function EventsPage() {
     setForm(p => ({ ...p, [field]: e.target.value }));
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="admin-page-wrap">
       <div className="flex items-center justify-between mb-6 lg:pl-0 pl-12">
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
