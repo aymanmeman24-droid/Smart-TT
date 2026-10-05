@@ -138,14 +138,14 @@ export default function HomePage() {
             letterSpacing: '-0.04em', lineHeight: 1.05,
             color: '#fdf6e3', marginBottom: 10,
           }}>
-            Smart<br />
+            Shala<br />
             <span style={{
               background: 'linear-gradient(135deg, #ffd166 0%, #f472b6 60%, #fb923c 100%)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            }}>Timetable</span>
+            }}>Sync</span>
           </h1>
           <p style={{ fontSize: 15, color: '#c4a882', lineHeight: 1.6, maxWidth: 320 }}>
-            Your lectures, live room changes &amp; campus updates — in one tap.
+            Your lectures, live room changes &amp; campus updates — always in sync.
           </p>
         </div>
 
@@ -347,7 +347,7 @@ export default function HomePage() {
       {/* Footer */}
       <div style={{ position: 'relative', zIndex: 10, textAlign: 'center', paddingBottom: 24 }}>
         <p style={{ fontSize: 11, color: '#2d2448' }}>
-          GEC Palanpur · Smart Timetable Portal · {new Date().getFullYear()}
+          ShalaSync · GEC Palanpur · {new Date().getFullYear()}
         </p>
       </div>
 

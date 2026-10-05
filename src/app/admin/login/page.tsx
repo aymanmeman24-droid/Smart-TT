@@ -55,7 +55,7 @@ export default function AdminLoginPage() {
           <h1 style={{ fontSize: 28, fontWeight: 900, letterSpacing: '-0.04em', color: '#fdf6e3', marginBottom: 4 }}>
             Admin Portal
           </h1>
-          <p style={{ fontSize: 13, color: '#6b5a3a' }}>Smart Timetable Management System</p>
+          <p style={{ fontSize: 13, color: '#6b5a3a' }}>ShalaSync — Admin Portal</p>
         </div>
 
         {/* Form card */}

@@ -1,7 +1,7 @@
 {
-  "name": "GEC Palanpur — Smart Timetable",
-  "short_name": "GEC Timetable",
-  "description": "Government Engineering College Palanpur — Smart Timetable Portal. View your personalized timetable, current lecture, live updates, and campus announcements.",
+  "name": "ShalaSync — GEC Palanpur",
+  "short_name": "ShalaSync",
+  "description": "ShalaSync — Government Engineering College Palanpur. View your personalized timetable, live room changes, and real-time campus updates.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#080c14",

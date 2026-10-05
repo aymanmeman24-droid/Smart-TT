@@ -11,21 +11,21 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Smart Timetable Portal — GEC Palanpur',
-    template: '%s | GEC Palanpur Timetable',
+    default: 'ShalaSync — GEC Palanpur',
+    template: '%s | ShalaSync',
   },
-  description: 'Government Engineering College Palanpur — Smart Timetable Portal. View your personalized timetable, current lecture, room changes, and campus updates instantly.',
-  keywords: ['GEC Palanpur', 'timetable', 'college', 'schedule', 'student', 'portal', 'Government Engineering College'],
+  description: 'ShalaSync — Government Engineering College Palanpur. View your personalized timetable, live room changes, and real-time campus updates instantly.',
+  keywords: ['ShalaSync', 'GEC Palanpur', 'timetable', 'college schedule', 'student portal', 'Government Engineering College', 'live updates'],
   authors: [{ name: 'GEC Palanpur' }],
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'GEC Timetable',
+    title: 'ShalaSync',
   },
   openGraph: {
-    title: 'Smart Timetable Portal — GEC Palanpur',
-    description: 'Your personalized college timetable — live, real-time, and always up to date.',
+    title: 'ShalaSync — GEC Palanpur',
+    description: 'Your personalized college timetable — live, real-time, and always in sync.',
     type: 'website',
   },
 };
